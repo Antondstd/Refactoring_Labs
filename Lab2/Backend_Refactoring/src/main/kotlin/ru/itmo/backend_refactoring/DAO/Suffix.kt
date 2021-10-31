@@ -10,16 +10,4 @@ class Suffix(
 ) {
     @ManyToMany
     var words: MutableSet<Word> = mutableSetOf()
-
-//    override fun equals(other: Any?): Boolean {
-//        return this.text == (other as Ending).text
-//    }
-//
-//    override fun hashCode(): Int {
-//        return text.hashCode()
-//    }
-//
-//    override fun toString(): String {
-//        return text
-//    }
 }

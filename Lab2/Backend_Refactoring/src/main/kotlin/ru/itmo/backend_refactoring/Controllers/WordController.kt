@@ -2,11 +2,9 @@ package ru.itmo.backend_refactoring.Controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import ru.itmo.backend_refactoring.DAO.EndingDAO
-import ru.itmo.backend_refactoring.DAO.Suffix
-import ru.itmo.backend_refactoring.DAO.Prefix
-import ru.itmo.backend_refactoring.DAO.Word
+import ru.itmo.backend_refactoring.DAO.*
 import ru.itmo.backend_refactoring.Models.WordModel
+import ru.itmo.backend_refactoring.Repository.RootRepository
 import ru.itmo.backend_refactoring.Services.EndingService
 import ru.itmo.backend_refactoring.Services.SuffixService
 import ru.itmo.backend_refactoring.Services.PrefixService
@@ -26,11 +24,13 @@ class WordController {
     lateinit var prefixService:PrefixService
 
     @Autowired
+    lateinit var rootService: RootRepository
+
+    @Autowired
     lateinit var endingService: EndingService
 
     @PostMapping
     fun addWord(@RequestBody wordModel: WordModel) {
-        println(wordModel)
         val suffixes: MutableList<Suffix> = mutableListOf()
         var ending: EndingDAO? = null
         var endingSize = wordModel.endings.size
@@ -62,7 +62,14 @@ class WordController {
                 prefix = Prefix(it)
             }
         }
-        wordService.save(Word(prefix, wordModel.root!!,suffixes,wordModel.word!!,ending))
+        var root: Root
+        try {
+            root = rootService.getById(wordModel.root!!)
+        }
+        catch (e:Exception){
+            root = Root(wordModel.root!!)
+        }
+        wordService.save(Word(prefix, root,suffixes,wordModel.word!!,ending))
     }
 
     @GetMapping("/{fullWord}")

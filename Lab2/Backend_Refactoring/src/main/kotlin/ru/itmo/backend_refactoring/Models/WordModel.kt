@@ -35,7 +35,7 @@ class WordModel(
 
     constructor(w: Word) : this() {
         this.apply {
-            root = w.root
+            root = w.root.text
             prefix = w.prefix?.text
             for (end in w.suffixes)
                 endings.add(end.text)

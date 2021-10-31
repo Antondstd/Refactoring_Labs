@@ -7,7 +7,9 @@ class Word(
     @ManyToOne(cascade= arrayOf(CascadeType.MERGE,CascadeType.PERSIST))
     @JoinColumn(name = "prefix_id")
     var prefix: Prefix?,
-    var root: String,
+    @ManyToOne(cascade= arrayOf(CascadeType.MERGE,CascadeType.PERSIST))
+    @JoinColumn(name = "root_id")
+    var root: Root,
     @ManyToMany(cascade= arrayOf(CascadeType.MERGE,CascadeType.PERSIST))
     @JoinTable(
         name = "suffixes_words",
@@ -24,18 +26,4 @@ class Word(
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="id")
     var id: Long = 0
-
-//    constructor(wordModel: WordModel) : this(wordModel.prefix?.let { Prefix(it) },wordModel.root!!) {
-//        this.apply {
-//            for (end in wordModel.endings) {
-//                try {
-//                    val endBuf = .findById(end).get()
-//                    endings.add(endBuf)
-//                }
-//                catch (e:IllegalArgumentException){
-//                    endings.add(Ending(end))
-//                }
-//            }
-//        }
-//    }
 }
