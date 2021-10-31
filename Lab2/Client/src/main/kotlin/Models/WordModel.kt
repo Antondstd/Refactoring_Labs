@@ -59,6 +59,7 @@ class WordModel{
     }
 
     fun getWordByParts(): String {
+<<<<<<< HEAD
         val fullWord:StringBuilder = StringBuilder().apply {
             if (prefix != null && !prefix!!.isEmpty()){
                 append("$prefix-")
@@ -69,6 +70,18 @@ class WordModel{
             }
         }
         return fullWord.toString()
+=======
+        var fullWord = root
+        if (prefix != null && !prefix!!.isEmpty())
+//            return StringBuilder("$prefix-$root-$endingString").toString()
+            fullWord = prefix + "-" + fullWord
+        if (endings.size > 0) {
+            val endingString = endings.joinToString("-")
+            fullWord = fullWord + "-" + endingString
+        }
+        return fullWord!!
+//            return StringBuilder("$root-$endingString").toString()
+>>>>>>> b98df464647863c74dac4d04a186ec831653ce6e
     }
 
     companion object {
